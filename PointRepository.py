@@ -92,3 +92,85 @@ class PointRepository():
         col = [point.get_color() for point in self.__points]
         plt.scatter(x, y, c = col)
         plt.show()
+        
+    #Get all points that are inside a given circle
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    #@Input - radius: int
+    #@Output - list of MyPointClass
+    def get_points_inside_circle(self, coord_X, coord_Y, radius):
+        return [point for point in self.__points if get_distance(point, MyPointClass(coord_X, coord_Y, "black")) <= radius]
+
+    #Get all points that are inside a given rectangle
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    #(coord_X, coord_Y) is the top-left corner of the rectangle
+    #@Input - length: int
+    #@Input - width: int
+    #@Output - list of MyPointClass
+    def get_points_rectangle(self, coord_X, coord_Y, length, width):
+        return [point for point in self.__points if point.get_coord_X() >= coord_X and point.get_coord_X() <= coord_X + length and point.get_coord_Y() <= coord_Y and point.get_coord_Y() >= coord_Y - width]
+    
+    #Get the maximum distance between two out of all the points:
+    #@Output - float
+    def get_max_distance(self):
+        for i in range(len(self.__points)):
+            for j in range(i + 1, len(self.__points)):
+                if i == 0 and j == 1:
+                    max_distance = get_distance(self.__points[i], self.__points[j])
+                else:
+                    max_distance = max(max_distance, get_distance(self.__points[i], self.__points[j]))
+        return max_distance
+    
+    #Get the number of points of a given color:
+    #@Input - color: string
+    #@Output - int
+    def get_number_of_points_of_color(self, color):
+        return len(self.get_points_by_color(color))
+    
+    #Update the color of a point given by it's coordinates:
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    #@Input - color: string
+    def update_color(self, coord_X, coord_Y, color):
+        for point in self.__points:
+            if point.get_coord_X() == coord_X and point.get_coord_Y() == coord_Y:
+                point.set_color(color)
+    
+    #Shift all points on the X axis by a given value:
+    #@Input - shift: int
+    def shift_X(self, shift):
+        for point in self.__points:
+            point.set_coord_X(point.get_coord_X() + shift)
+    
+    #Shift all points on the Y axis by a given value:
+    #@Input - shift: int
+    def shift_Y(self, shift):
+        for point in self.__points:
+            point.set_coord_Y(point.get_coord_Y() + shift)
+    
+    #Delete a point by it's coordintes:
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    def delete_point_by_coordinates(self, coord_X, coord_Y):
+        for point in self.__points:
+            if point.get_coord_X() == coord_X and point.get_coord_Y() == coord_Y:
+                self.__points.remove(point)
+
+    #Delete all points that are inside a given circle:
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    #@Input - radius: int
+    def delete_points_inside_circle(self, coord_X, coord_Y, radius):
+        for point in self.__points:
+            if get_distance(point, MyPointClass(coord_X, coord_Y, "black")) <= radius:
+                self.__points.remove(point)
+                
+    #Delete all points within a given distance of a given point:
+    #@Input - coord_X: int
+    #@Input - coord_Y: int
+    #@Input - distance: int
+    def delete_points_within_distance(self, coord_X, coord_Y, distance):
+        for point in self.__points:
+            if get_distance(point, MyPointClass(coord_X, coord_Y, "black")) <= distance:
+                self.__points.remove(point)
