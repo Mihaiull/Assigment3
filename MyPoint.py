@@ -1,3 +1,6 @@
+from colorama import Fore, Style
+
+
 #Class MyPoint that represents a point in a 2D space
 #Has the following attributes:
 #   - coord_X: int
@@ -8,7 +11,7 @@ class MyPointClass():
         self.__coord_X = coord_X
         self.__coord_Y = coord_Y
         self.__color = color
-        
+    
     def get_coord_X(self):
         return self.__coord_X
     def get_coord_Y(self):
@@ -23,6 +26,6 @@ class MyPointClass():
         self.__color = color
     
     def __str__(self):
-        return "Point of coordinates: (" + str(self.__coord_X) + ", " + str(self.__coord_Y) + "), and of color: " + self.__color
+        return "(" + str(self.__coord_X) + ", " + str(self.__coord_Y) + ", " + self.__color + ")"
     def __repr__(self):
         return str(self)
