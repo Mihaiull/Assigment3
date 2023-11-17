@@ -48,8 +48,13 @@ def UI():
             elif command == 2:
                 coord_X = int(input("Enter coord_X: "))
                 coord_Y = int(input("Enter coord_Y: "))
-                color = input("Enter color: ")
-
+                try:
+                    color = input("Enter color: ")
+                    if color != "red" and color != "blue" and color != "yellow" and color != "green" and color != "purple" and color != "magenta" and color != "cyan":
+                        raise Exception("Invalid color!")
+                except Exception as e:
+                    print(e)
+                    continue
                 repo.add_point(coord_X, coord_Y, color)
             elif command == 3:
                 index = int(input("Enter index: "))

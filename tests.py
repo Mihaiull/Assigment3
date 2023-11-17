@@ -16,6 +16,7 @@ def test_add():
     actual = repo.get_all_points()
     expected = [MyPointClass(1, 2, 'red'), MyPointClass(2, 3, 'blue'), MyPointClass(3, 4, 'red')]
     assert actual == expected, 'Add function does not work correctly! (3)'
+    
 def test_get_point():
     repo = PointRepository()
     repo.add_point(1, 2, 'red')
@@ -69,6 +70,10 @@ def test_update_point():
     repo.add_point(3, 4, 'red')
     repo.update_point(1, 4, 5, 'green')
     assert repo.get_all_points() == [MyPointClass(1, 2, 'red'), MyPointClass(4, 5, 'green'), MyPointClass(3, 4, 'red')], 'Update point function does not work correctly! (1)'
+    repo.update_point(0, 5, 6, 'blue')
+    assert repo.get_all_points() == [MyPointClass(5, 6, 'blue'), MyPointClass(4, 5, 'green'), MyPointClass(3, 4, 'red')], 'Update point function does not work correctly! (2)'
+    repo.update_point(2, 6, 7, 'red')
+    assert repo.get_all_points() == [MyPointClass(5, 6, 'blue'), MyPointClass(4, 5, 'green'), MyPointClass(6, 7, 'red')], 'Update point function does not work correctly! (3)'
     
 def test_delete_point():
     repo = PointRepository()
@@ -77,6 +82,10 @@ def test_delete_point():
     repo.add_point(3, 4, 'red')
     repo.delete_point(1)
     assert repo.get_all_points() == [MyPointClass(1, 2, 'red'), MyPointClass(3, 4, 'red')], 'Delete point function does not work correctly! (1)'
+    repo.delete_point(0)
+    assert repo.get_all_points() == [MyPointClass(3, 4, 'red')], 'Delete point function does not work correctly! (2)'
+    repo.delete_point(0)
+    assert repo.get_all_points() == [], 'Delete point function does not work correctly! (3)'
     
 def test_delete_points_inside_square():
     repo = PointRepository()
@@ -86,7 +95,6 @@ def test_delete_points_inside_square():
     repo.add_point(4, 5, 'green')
     repo.add_point(5, 6, 'red')
     repo.delete_points_inside_square(0, 3, 3)
-
     assert repo.get_all_points() == [MyPointClass(2, 3, 'blue'), MyPointClass(3, 4, 'red'), MyPointClass(4, 5, 'green'), MyPointClass(5, 6, 'red')], 'Delete points inside square function does not work correctly! (1)'
     repo.delete_points_inside_square(3, 6, 3)
     assert repo.get_all_points() == [MyPointClass(2, 3, 'blue'), MyPointClass(4, 5, 'green')], 'Delete points inside square function does not work correctly! (2)'
