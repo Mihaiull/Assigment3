@@ -26,6 +26,8 @@ class MyPointClass():
         self.__color = color
     
     def __str__(self):
-        return "(" + str(self.__coord_X) + ", " + str(self.__coord_Y) + ", " + self.__color + ")"
+        return "(" + str(self.__coord_X) + ", " + str(self.__coord_Y) + ", '" + self.__color + "')"
     def __repr__(self):
         return str(self)
+    def __eq__ (self, other):
+        return self.__coord_X == other.get_coord_X() and self.__coord_Y == other.get_coord_Y() and self.__color == other.get_color()

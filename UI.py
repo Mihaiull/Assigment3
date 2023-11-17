@@ -28,8 +28,14 @@ def menu():
     print(Style.RESET_ALL)
 
 def UI():
-    run_all_tests()
+    #run_all_tests()
     repo = PointRepository()   
+    repo.add_point(1, 2, "red")
+    repo.add_point(2, 3, "blue")
+    repo.add_point(3, 4, "red")
+    repo.add_point(4, 5, "blue")
+    repo.add_point(5, 6, "red")
+    repo.add_point(6, 7, "blue")
     while True:
         try: 
             menu()

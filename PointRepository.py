@@ -48,18 +48,21 @@ class PointRepository():
     #@Input - length: int
     #@Output - list of MyPointClass
     def get_points_inside_square(self, coord_X, coord_Y, length):
-        return [point for point in self.__points if point.get_coord_X() >= coord_X and point.get_coord_X() <= coord_X + length and point.get_coord_Y() <= coord_Y and point.get_coord_Y() >= coord_Y - length]
+        lst = []
+        for point in self.__points:
+            if point.get_coord_X() >= coord_X and point.get_coord_X() <= coord_X + length and point.get_coord_Y() <= coord_Y and point.get_coord_Y() >= coord_Y - length:
+                lst.append(point)
+        return lst
         
     #Get the minimum distance between two out of all the points:
     #@Output - float
     def get_min_distance(self):
-        for i in range(len(self.__points)):
+        min_distance = min(get_distance(self.__points[0], self.__points[1]), 9999999)
+        for i in range(1, len(self.__points)):
             for j in range(i + 1, len(self.__points)):
-                if i == 0 and j == 1:
-                    min_distance = get_distance(self.__points[i], self.__points[j])
-                else:
-                    min_distance = min(min_distance, get_distance(self.__points[i], self.__points[j]))
-        
+                min_distance = min(min_distance, get_distance(self.__points[i], self.__points[j]))
+        return min_distance
+
     #Update a point at a given index:
     #@Input - index: int
     #@Input - coord_X: int
@@ -82,7 +85,7 @@ class PointRepository():
     #@Input - length: int
     def delete_points_inside_square(self, coord_X, coord_Y, length):
         for point in self.__points:
-            if point.get_coord_X() >= coord_X and point.get_coord_X() <= coord_X + length and point.get_coord_Y() <= coord_Y and point.get_coord_Y() >= coord_Y + length:
+            if point in self.get_points_inside_square(coord_X, coord_Y, length):
                 self.__points.remove(point)
     
     #Plot all points in a chart (using matplotlib):
@@ -163,8 +166,8 @@ class PointRepository():
     #@Input - radius: int
     def delete_points_inside_circle(self, coord_X, coord_Y, radius):
         for point in self.__points:
-            if get_distance(point, MyPointClass(coord_X, coord_Y, "black")) <= radius:
-                self.__points.remove(point)
+            if point in self.get_points_inside_circle(coord_X, coord_Y, radius):
+                self.__points.pop(point)
                 
     #Delete all points within a given distance of a given point:
     #@Input - coord_X: int
@@ -174,3 +177,6 @@ class PointRepository():
         for point in self.__points:
             if get_distance(point, MyPointClass(coord_X, coord_Y, "black")) <= distance:
                 self.__points.remove(point)
+                
+    def clear(self):
+        self.__points.clear()
